@@ -1,20 +1,24 @@
 package com.scrimify.services.service;
 
 import com.scrimify.services.enums.UserRole;
+import com.scrimify.services.exception.ScrimifyException;
+import com.scrimify.services.model.UserPrincipal;
+import com.scrimify.services.model.request.LoginRequest;
+import com.scrimify.services.model.request.UserRoleRequest;
 import com.scrimify.services.model.Users;
 import com.scrimify.services.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -38,17 +42,28 @@ public class UserService {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setId(generateId());
         user.getRoles().add(UserRole.ROLE_USER.getCode());
+
         repo.save(user);
         return user;
     }
 
-    public String verify(Users user) {
-        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getUsername());
-        } else {
-            return "fail";
+    public String verify(LoginRequest user) {
+        try{
+            Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            Users authenticatedUser = ((UserPrincipal) authentication.getPrincipal()).getUser();
+            return jwtService.generateToken(authenticatedUser);
+        }catch (AuthenticationException e){
+            System.out.println(e);
+            throw ScrimifyException.unauthorized("Wrong Data");
         }
+    }
+
+    public Users changeUserRole(UserRoleRequest request){
+        Users user = repo.findById(request.getUserId()).orElseThrow(() -> new UsernameNotFoundException(request.getUserId() + " nix gefunden"));
+        user.getRoles().add(request.getRole());
+        repo.save(user);
+
+        return user;
     }
 
     public static String generateId() {
@@ -62,7 +77,6 @@ public class UserService {
             int index = random.nextInt(CHAR_POOL.length());
             idBuilder.append(CHAR_POOL.charAt(index));
         }
-
 
         return idBuilder.toString();
     }

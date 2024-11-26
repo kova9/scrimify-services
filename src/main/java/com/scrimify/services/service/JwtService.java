@@ -1,5 +1,6 @@
 package com.scrimify.services.service;
 
+import com.scrimify.services.model.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -24,13 +25,15 @@ public class JwtService {
         this.secretkey = secretKeyBase64;
     }
 
-    public String generateToken(String username) {
+    public String generateToken(Users user) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
+        claims.put("email", user.getEmail());
         Date currDate = new Date(System.currentTimeMillis());
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+                .subject(user.getUsername())
                 .issuedAt(currDate)
                 .expiration(new Date(currDate.getTime() + 1000 * 60 * 60 * 24))
                 .and()

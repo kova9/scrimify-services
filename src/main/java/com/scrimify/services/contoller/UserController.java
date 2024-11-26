@@ -1,6 +1,8 @@
 package com.scrimify.services.contoller;
 
 import com.scrimify.services.model.Users;
+import com.scrimify.services.model.request.LoginRequest;
+import com.scrimify.services.model.request.UserRoleRequest;
 import com.scrimify.services.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +25,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody Users user) {
+    public String login(@RequestBody LoginRequest user) {
 
         return service.verify(user);
     }
+
+    @PostMapping("/userRole")
+    public Users changeUserRole(@RequestBody UserRoleRequest user){
+        return service.changeUserRole(user);
+    }
+
 }
