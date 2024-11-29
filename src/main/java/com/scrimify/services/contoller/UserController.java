@@ -1,14 +1,15 @@
 package com.scrimify.services.contoller;
 
+import com.scrimify.services.auth.Context;
+import com.scrimify.services.model.UserPrincipal;
 import com.scrimify.services.model.Users;
 import com.scrimify.services.model.request.LoginRequest;
+import com.scrimify.services.model.request.RegisterRequest;
 import com.scrimify.services.model.request.UserRoleRequest;
 import com.scrimify.services.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -19,8 +20,8 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public Users register(@RequestBody Users user) {
-        return service.register(user);
+    public Users register(@RequestBody RegisterRequest req) {
+        return service.register(req);
 
     }
 
@@ -31,8 +32,8 @@ public class UserController {
     }
 
     @PostMapping("/userRole")
-    public Users changeUserRole(@RequestBody UserRoleRequest user){
-        return service.changeUserRole(user);
+    public Users changeUserRole(@RequestBody UserRoleRequest user, @AuthenticationPrincipal UserPrincipal context){
+        return service.changeUserRole(user, context);
     }
 
 }

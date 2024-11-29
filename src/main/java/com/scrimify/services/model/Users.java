@@ -1,12 +1,10 @@
 package com.scrimify.services.model;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,6 +16,9 @@ public class Users {
     private String email;
     private LocalDate dob;
     private String countryCode;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    private List<GameAccount> gameAccounts;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
 
