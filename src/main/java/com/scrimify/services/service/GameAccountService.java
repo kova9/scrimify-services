@@ -19,6 +19,12 @@ public class GameAccountService {
     private GameAccountLogic gameAccountLogic;
 
     public ResponseEntity<GameAccount> create(GameAccountRequest req, UserPrincipal principal){
+        gameAccountRepo.findByGameIdAndUserId(req.getGameId(), principal.getUserId()).ifPresent(acc ->
+                {
+                    throw ScrimifyException.conflict("User already has an Account for this game");
+                }
+        );
+
         gameAccountRepo.findByGameIdAndInGameNameAndInGameUserId(req.getGameId(), req.getInGameName(), req.getInGameId()).ifPresent(acc ->
                 {
                     throw ScrimifyException.conflict("In Game Name and ID combination already exists for this game");

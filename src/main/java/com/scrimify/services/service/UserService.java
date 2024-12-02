@@ -8,9 +8,7 @@ import com.scrimify.services.model.request.LoginRequest;
 import com.scrimify.services.model.request.RegisterRequest;
 import com.scrimify.services.model.request.UserRoleRequest;
 import com.scrimify.services.repo.UserRepo;
-import com.scrimify.services.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,10 +30,6 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
-
-    @Autowired
-    private ApplicationContext context;
-
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 

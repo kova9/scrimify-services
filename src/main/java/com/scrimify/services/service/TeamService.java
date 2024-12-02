@@ -7,6 +7,7 @@ import com.scrimify.services.model.UserPrincipal;
 import com.scrimify.services.model.request.TeamRequest;
 import com.scrimify.services.repo.TeamRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,7 @@ public class TeamService {
     private TeamLogic teamLogic;
 
 
-    public Team create(TeamRequest req, UserPrincipal context) {
+    public ResponseEntity<Team> create(TeamRequest req, UserPrincipal context) {
         teamRepo.getTeamByNameAndGameId(req.getName(), req.getGameId()).ifPresent( team -> {
             throw ScrimifyException.conflict("Team already exists for this game");
         });
@@ -26,6 +27,7 @@ public class TeamService {
         Team team = teamLogic.create(req, context.getUserId());
         teamRepo.save(team);
 
-        return team;
+        return ResponseEntity.ok(team);
     }
+
 }

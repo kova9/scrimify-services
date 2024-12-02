@@ -3,6 +3,10 @@ package com.scrimify.services.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(
+        name = "team_member",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"team_id", "game_account_id"})
+)
 public class TeamMember {
     @Id
     @Column(length = 36)

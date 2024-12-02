@@ -9,4 +9,5 @@ import java.util.Optional;
 @Component
 public interface GameAccountRepo extends JpaRepository<GameAccount, String> {
     Optional<GameAccount> findByGameIdAndInGameNameAndInGameUserId(String gameId, String inGameName, String inGameId);
+    Optional<GameAccount> findByGameIdAndUserId(String gameId, String userId);
 }

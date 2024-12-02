@@ -1,6 +1,5 @@
 package com.scrimify.services.contoller;
 
-import com.scrimify.services.auth.Context;
 import com.scrimify.services.model.UserPrincipal;
 import com.scrimify.services.model.Users;
 import com.scrimify.services.model.request.LoginRequest;
