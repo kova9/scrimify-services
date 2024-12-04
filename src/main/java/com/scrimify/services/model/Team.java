@@ -2,6 +2,7 @@ package com.scrimify.services.model;
 
 import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,14 @@ public class Team {
 
     @Column(length = 36)
     private String leaderId;
+
+    private String timezone;
+
+    @Column(name = "crttst")
+    private ZonedDateTime createTimestamp;
+
+    @Column(name = "crtuser")
+    private String createUser;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<TeamMember> teamMembers;
@@ -60,5 +69,29 @@ public class Team {
 
     public void setLeaderId(String leaderId) {
         this.leaderId = leaderId;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public ZonedDateTime getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(ZonedDateTime createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 }

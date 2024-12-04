@@ -7,4 +7,5 @@ public class TeamRequest {
 
     private String name;
     private String gameId;
+    private String timezone;
 }

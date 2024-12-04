@@ -2,6 +2,8 @@ package com.scrimify.services.model;
 
 import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
+
 @Entity
 @Table(
         name = "team_member",
@@ -23,6 +25,9 @@ public class TeamMember {
     @ManyToOne
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
+
+    @Column(name = "crttst")
+    private ZonedDateTime createTimestamp;
 
     public String getId() {
         return id;
@@ -54,5 +59,13 @@ public class TeamMember {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public ZonedDateTime getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(ZonedDateTime createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 }

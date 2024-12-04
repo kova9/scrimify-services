@@ -3,6 +3,7 @@ package com.scrimify.services.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,8 @@ public class Users {
     private String email;
     private LocalDate dob;
     private String countryCode;
+    @Column(name = "crttst")
+    private ZonedDateTime createTimestamp;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<GameAccount> gameAccounts;
@@ -76,6 +79,22 @@ public class Users {
 
     public void setCountryCode(String countyCode) {
         this.countryCode = countyCode;
+    }
+
+    public ZonedDateTime getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(ZonedDateTime createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+    public List<GameAccount> getGameAccounts() {
+        return gameAccounts;
+    }
+
+    public void setGameAccounts(List<GameAccount> gameAccounts) {
+        this.gameAccounts = gameAccounts;
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.scrimify.services.model;
 
 import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
+
 @Entity
 public class GameAccount {
     @Id
@@ -16,6 +18,9 @@ public class GameAccount {
 
     @Column
     private String gameId;
+
+    @Column(name = "crttst")
+    private ZonedDateTime createTimestamp;
 
     public String getId() {
         return id;
@@ -55,5 +60,13 @@ public class GameAccount {
 
     public void setGameId(String gameId) {
         this.gameId = gameId;
+    }
+
+    public ZonedDateTime getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(ZonedDateTime createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 }
